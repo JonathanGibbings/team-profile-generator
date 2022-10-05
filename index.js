@@ -7,13 +7,13 @@ const Intern = require('./lib/Intern');
 const teamArray = [];
 
 const menu = () => {
+    console.log(`================================`);
     return inquirer.prompt({
         type: 'list',
         name: 'menu',
         message: 'Would you like to:',
         choices: ['Add an Engineer', 'Add an Intern', 'Finish building team']
     }).then(answer => {
-        console.log(answer);
         if (answer.menu === 'Add an Engineer') {
             return addEngineer();
         } else if (answer.menu === 'Add an Intern') {
