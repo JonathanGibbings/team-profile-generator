@@ -1,10 +1,41 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const generatePage = require('./src/page-template');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
 const teamArray = [];
+
+const writeFile = teamData => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile('./dist/index.html', teamData, err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve({
+                ok: true,
+                message: 'index.html created!'
+            });
+        });
+    });
+};
+
+const copyFile = () => {
+    return new Promise((resolve, reject) => {
+        fs.copyFile('./src/style.css', './dist/style.css', err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve({
+                ok: true,
+                message: 'style.css copied!'
+            });
+        });
+    });
+};
 
 const menu = () => {
     console.log(`================================`);
@@ -96,10 +127,16 @@ const addIntern = () => {
 const initTeam = () => {
     addManager()
         .then(menu)
-        .then(() => {
-            console.log(teamArray);
-            return;
-        });
+        .then(() => generatePage(teamArray))
+        .then(pageHTML => writeFile(pageHTML))
+        .then(writeFileResponse => {
+            console.log(writeFileResponse);
+            return copyFile();
+        })
+        .then(copyFileResponse => {
+            console.log(copyFileResponse);
+        })
+        .catch(err => console.log(err));
 };
 
 
