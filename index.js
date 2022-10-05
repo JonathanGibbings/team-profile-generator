@@ -13,8 +13,13 @@ const menu = () => {
         message: 'Would you like to:',
         choices: ['Add an Engineer', 'Add an Intern', 'Finish building team']
     }).then(answer => {
-        if (answer === 'Add an Engineer') {
-            
+        console.log(answer);
+        if (answer.menu === 'Add an Engineer') {
+            return addEngineer();
+        } else if (answer.menu === 'Add an Intern') {
+            return addIntern();
+        } else {
+            return;
         }
     });
 };
@@ -58,6 +63,9 @@ const addEngineer = () => {
     .then(answer => {
         engineer.github = answer.github;
         teamArray.push(engineer);
+    })
+    .then(() => {
+        return menu();
     });
 };
 
@@ -79,14 +87,18 @@ const addIntern = () => {
     .then(answer => {
         intern.school = answer.school;
         teamArray.push(intern);
+    })
+    .then(() => {
+        return menu();
     });
 };
 
 const initTeam = () => {
     addManager()
         .then(menu)
-        .then(answer => {
-            console.log(answer);
+        .then(() => {
+            console.log(teamArray);
+            return;
         });
 };
 
