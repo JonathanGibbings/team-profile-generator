@@ -1,99 +1,96 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
-const promptEmployeeQuestions = (role) => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'name',
-            message: 'What is the name of the employee?',
-            validate: answer => {
-                if (answer) {
-                    return true;
-                } else {
-                    console.log('Please enter a name');
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'id',
-            message: 'What is the ID of the employee?',
-            validate: answer => {
-                if (answer) {
-                    return true;
-                } else {
-                    console.log('Please enter an ID');
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: 'What is the email of the employee?',
-            validate: answer => {
-                if (answer) {
-                    return true;
-                } else {
-                    console.log('Please enter an email');
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'officeNumber',
-            message: 'What is the office number of the employee?',
-            validate: answer => {
-                if (answer) {
-                    return true;
-                } else {
-                    console.log('Please enter an office number');
-                    return false;
-                }
-            },
-            when: role = 'manager'
-        },
-        {
-            type: 'input',
-            name: 'github',
-            message: 'What is the github username of the employee?',
-            validate: answer => {
-                if (answer) {
-                    return true;
-                } else {
-                    console.log('Please enter a github username');
-                    return false;
-                }
-            },
-            when: role = 'engineer'
-        },
-        {
-            type: 'input',
-            name: 'school',
-            message: 'What is the school of the employee?',
-            validate: answer => {
-                if (answer) {
-                    return true;
-                } else {
-                    console.log('Please enter an office number');
-                    return false;
-                }
-            },
-            when: role = 'intern'
+const teamArray = [];
+
+const menu = () => {
+    return inquirer.prompt({
+        type: 'list',
+        name: 'menu',
+        message: 'Would you like to:',
+        choices: ['Add an Engineer', 'Add an Intern', 'Finish building team']
+    }).then(answer => {
+        if (answer === 'Add an Engineer') {
+            
         }
-    ])
+    });
 };
 
-const init = () => {
-    console.log(`
-====================
-    Team Manager
-====================
-    `)
-    return promptEmployeeQuestions('manager');
+const addManager = () => {
+    const manager = new Manager();
+    return manager.getName()
+        .then(answer => {
+            manager.name = answer.name;
+            return manager.getId();
+        })
+        .then(answer => {
+            manager.id = answer.id;
+            return manager.getEmail();
+        })
+        .then(answer => {
+            manager.email = answer.email;
+            return manager.getOfficeNumber();
+        })
+        .then(answer => {
+            manager.officeNumber = answer.officeNumber;
+            teamArray.push(manager);
+        });
 };
 
-init().then(data => console.log(data));
+const addEngineer = () => {
+    const engineer = new Engineer();
+    return engineer.getName()
+    .then(answer => {
+        engineer.name = answer.name;
+        return engineer.getId();
+    })
+    .then(answer => {
+        engineer.id = answer.id;
+        return engineer.getEmail();
+    })
+    .then(answer => {
+        engineer.email = answer.email;
+        return engineer.getGithub();
+    })
+    .then(answer => {
+        engineer.github = answer.github;
+        teamArray.push(engineer);
+    });
+};
+
+const addIntern = () => {
+    const intern = new Intern();
+    return intern.getName()
+    .then(answer => {
+        intern.name = answer.name;
+        return intern.getId();
+    })
+    .then(answer => {
+        intern.id = answer.id;
+        return intern.getEmail();
+    })
+    .then(answer => {
+        intern.email = answer.email;
+        return intern.getSchool();
+    })
+    .then(answer => {
+        intern.school = answer.school;
+        teamArray.push(intern);
+    });
+};
+
+const initTeam = () => {
+    addManager()
+        .then(menu)
+        .then(answer => {
+            console.log(answer);
+        });
+};
+
+
+
+
+initTeam();
