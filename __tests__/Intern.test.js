@@ -12,7 +12,7 @@ test('creates a new Intern', () => {
 test("gets Intern's school", () => {
     const intern = new Intern('Alpha', 123, 'alpha_beta@gamma.com', 'Kappa University');
 
-    expect(intern.school).toBe('Kappa University');
+    expect(intern.getSchool()).toEqual(expect.any(Object));
 });
 
 test("gets Intern's role", () => {

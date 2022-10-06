@@ -9,6 +9,12 @@ test('creates a new manager', () => {
     expect(manager.officeNumber).toEqual(456);
 });
 
+test("gets manager's office number", () => {
+    const manager = new Manager('Alpha', 123, 'alpha_beta@gamma.com', 456);
+
+    expect(manager.getOfficeNumber()).toEqual(expect.any(Object));
+});
+
 test("gets manager's role", () => {
     const manager = new Manager('Alpha', 123, 'alpha_beta@gamma.com');
 

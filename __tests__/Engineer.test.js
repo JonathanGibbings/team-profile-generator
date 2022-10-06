@@ -12,7 +12,7 @@ test('creates a new engineer', () => {
 test("gets engineer's github name", () => {
     const engineer = new Engineer('Alpha', 123, 'alpha_beta@gamma.com', 'AlphaBeta');
 
-    expect(engineer.github).toBe('AlphaBeta');
+    expect(engineer.getGithub()).toEqual(expect.any(Object));
 });
 
 test("gets engineer's role", () => {
